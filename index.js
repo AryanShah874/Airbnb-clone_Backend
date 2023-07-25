@@ -308,7 +308,7 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "em
 
 app.get("/auth/google/callback", passport.authenticate("google", { session: false }), function (req, res){
     res.cookie('token', req.user);
-    res.redirect("https://sprightly-duckanoo-7e0e4f.netlify.app");
+    res.redirect("https://symphonious-cheesecake-7a0cf5.netlify.app");
 });
 
 
