@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'https://sprightly-duckanoo-7e0e4f.netlify.app',
+    origin: 'https://symphonious-cheesecake-7a0cf5.netlify.app',
     credentials: true
 }));
 app.use(cookieParser());
