@@ -136,6 +136,9 @@ app.get("/profile", function(req, res){
             }
         });
     }
+    else{
+        res.send("heee");
+    }
 });
 
 app.get("/logout", function(req, res){
@@ -307,6 +310,7 @@ app.get("/bookings", function(req, res){
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get("/auth/google/callback", passport.authenticate("google", { session: false }), function (req, res){
+    console.log(req.user);
     res.cookie('token', req.user);
     res.redirect("https://your-airbnb.netlify.app");
 });
