@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'https://heroic-kitsune-c5cb9c.netlify.app',
+    origin: 'https://strong-cendol-c086e4.netlify.app',
     credentials: true
 }));
 app.use(cookieParser());
