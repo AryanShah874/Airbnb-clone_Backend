@@ -124,21 +124,19 @@ app.post("/login", async function(req, res){
 
 app.get("/profile", function(req, res){
     const {token}=req.cookies;
-    
-    if(token){
-        jwt.verify(token, process.env.SECRET, {}, async function(err, user){
-            if(err){
-                console.log(err);
-            }
-            else{
-                const {name, username, _id}=await User.findById(user.id);  //for getting the name as name is not included in the token
-                res.json({name, username, _id});
-            }
-        });
-    }
-    else{
-        res.send(req);
-    }
+    res.send(token);    
+    // if(token){
+    //     jwt.verify(token, process.env.SECRET, {}, async function(err, user){
+    //         if(err){
+    //             console.log(err);
+    //         }
+    //         else{
+    //             const {name, username, _id}=await User.findById(user.id);  //for getting the name as name is not included in the token
+    //             res.json({name, username, _id});
+    //         }
+    //     });
+    // }
+
 });
 
 app.get("/logout", function(req, res){
