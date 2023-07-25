@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'https://strong-cendol-c086e4.netlify.app',
+    origin: 'https://sprightly-duckanoo-7e0e4f.netlify.app',
     credentials: true
 }));
 app.use(cookieParser());
