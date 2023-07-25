@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'https://symphonious-cheesecake-7a0cf5.netlify.app',
+    origin: 'https://your-airbnb.netlify.app',
     credentials: true
 }));
 app.use(cookieParser());
@@ -308,7 +308,7 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "em
 
 app.get("/auth/google/callback", passport.authenticate("google", { session: false }), function (req, res){
     res.cookie('token', req.user);
-    res.redirect("https://symphonious-cheesecake-7a0cf5.netlify.app");
+    res.redirect("https://your-airbnb.netlify.app");
 });
 
 
