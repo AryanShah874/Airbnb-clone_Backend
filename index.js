@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://heroic-kitsune-c5cb9c.netlify.app',
     credentials: true
 }));
 app.use(cookieParser());
@@ -384,6 +384,8 @@ app.delete("/deletePhoto/Uploads/:fileName", function(req, res){
 
 });
 
-app.listen(5000, function () {
-    console.log("Server started at port 5000");
+const PORT=process.env.PORT || 5000
+
+app.listen(PORT, function () {
+    console.log(`Server started at port ${PORT}`);
 });
