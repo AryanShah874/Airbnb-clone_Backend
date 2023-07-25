@@ -31,7 +31,7 @@ app.use('/Uploads', express.static(__dirname+'/Uploads'));
 passport.use(new GoogleStrategy({
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            callbackURL: "http://localhost:5000/auth/google/callback",
+            callbackURL: "https://airbnb-clone-backend-8i7m.onrender.com/auth/google/callback",
             scope: ['profile', 'email']
         },
         async function(accessToken, refreshToken, profile, done){
