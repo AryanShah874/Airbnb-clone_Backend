@@ -137,7 +137,7 @@ app.get("/profile", function(req, res){
         });
     }
     else{
-        res.send("heee");
+        res.send(req);
     }
 });
 
