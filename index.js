@@ -122,8 +122,8 @@ app.post("/login", async function(req, res){
     }
 });
 
-app.get("/profile", function(req, res){
-    const {token}=req.cookies;
+app.get("/profile", async function(req, res){
+    const {token}=await req.cookies;
     
     if(token){
         jwt.verify(token, process.env.SECRET, {}, async function(err, user){
