@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://airbnb-clone-frontend-mocha.vercel.app',
     credentials: true
 }));
 app.use(cookieParser());
@@ -31,7 +31,7 @@ app.use('/Uploads', express.static(__dirname+'/Uploads'));
 passport.use(new GoogleStrategy({
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            callbackURL: "http://localhost:5000/auth/google/callback",
+            callbackURL: "https://airbnb-clone-backend-one.vercel.app/auth/google/callback",
             scope: ['profile', 'email']
         },
         async function(accessToken, refreshToken, profile, done){
@@ -309,7 +309,7 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "em
 
 app.get("/auth/google/callback", passport.authenticate("google", { session: false }), function (req, res){
     res.cookie('token', req.user);
-    res.redirect("http://localhost:3000");
+    res.redirect("https://airbnb-clone-frontend-mocha.vercel.app");
 });
 
 
