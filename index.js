@@ -102,7 +102,7 @@ app.post("/login", async function(req, res){
                                     console.log(err);
                                 }
                                 else{
-                                    res.cookie("token", token, {sameSite: "none"}).json({"user": foundUser, "success": "Login Successful."});
+                                    res.cookie("token", token, {secure: true, sameSite: "none"}).json({"user": foundUser, "success": "Login Successful."});
                                 }
                             });
                         }
