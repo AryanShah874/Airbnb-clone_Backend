@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'https://64c00c31ad4acc055cb0bffb--peaceful-longma-ad0cff.netlify.app',
+    origin: 'https://peaceful-longma-ad0cff.netlify.app',
     credentials: true
 }));
 app.use(cookieParser());
@@ -122,8 +122,8 @@ app.post("/login", async function(req, res){
     }
 });
 
-app.get("/profile", async function(req, res){
-    const {token}=await req.cookies;
+app.get("/profile", function(req, res){
+    const {token}=req.cookies;
     
     if(token){
         jwt.verify(token, process.env.SECRET, {}, async function(err, user){
