@@ -5,8 +5,5 @@
     ],
     "routes": [
         {"src": "/(.*)", "dest": "/index.js"}
-    ],
-    "headers": [
-        {"key": "Access-Control-Allow-Origin", "value": "https://airbnb-clone-frontend-mocha.vercel.app"}
     ]
 }
