@@ -102,7 +102,7 @@ app.post("/login", async function(req, res){
                                     console.log(err);
                                 }
                                 else{
-                                    res.cookie("token", token, {domain: "https://airbnb-clone-backend-one.vercel.app", httpOnly: true, sameSite: "lax"}).json({"user": foundUser, "success": "Login Successful."});
+                                    res.cookie("token", token, {domain: ".vercel.app", httpOnly: true, sameSite: "lax"}).json({"user": foundUser, "success": "Login Successful."});
                                 }
                             });
                         }
