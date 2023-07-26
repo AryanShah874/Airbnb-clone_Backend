@@ -20,7 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'https://airbnb-clone-frontend-uk5d.onrender.com',
+    origin: 'http://localhost:3000',
     credentials: true
 }));
 app.use(cookieParser());
@@ -31,7 +31,7 @@ app.use('/Uploads', express.static(__dirname+'/Uploads'));
 passport.use(new GoogleStrategy({
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            callbackURL: "https://airbnb-clone-backend-8i7m.onrender.com/auth/google/callback",
+            callbackURL: "http://localhost:5000/auth/google/callback",
             scope: ['profile', 'email']
         },
         async function(accessToken, refreshToken, profile, done){
@@ -308,9 +308,8 @@ app.get("/bookings", function(req, res){
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get("/auth/google/callback", passport.authenticate("google", { session: false }), function (req, res){
-    console.log(req.user);
     res.cookie('token', req.user);
-    res.redirect("peaceful-longma-ad0cff.netlify.app");
+    res.redirect("http://localhost:3000");
 });
 
 
