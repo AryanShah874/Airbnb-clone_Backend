@@ -102,7 +102,7 @@ app.post("/login", async function(req, res){
                                     console.log(err);
                                 }
                                 else{
-                                    res.cookie("token", token, {secure: true, sameSite: "none"}).json({"user": foundUser, "success": "Login Successful."});
+                                    res.cookie("token", token, {secure: true, sameSite: "none"}).json({"user": foundUser, "success": "Login Successful."});   //cookie options very important
                                 }
                             });
                         }
@@ -308,7 +308,7 @@ app.get("/bookings", function(req, res){
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get("/auth/google/callback", passport.authenticate("google", { session: false }), function (req, res){
-    res.cookie('token', req.user);
+    res.cookie('token', req.user, {secure: true, sameSite: "none"});
     res.redirect("https://airbnb-clone-frontend-mocha.vercel.app");
 });
 
