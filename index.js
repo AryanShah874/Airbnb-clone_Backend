@@ -411,7 +411,7 @@ app.post("/upload", async function(req, res){
     // const arrayBuffer = await response.arrayBuffer();
     // const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
 
-    const photoUrl=await cloudinary.v2.uploader.upload(buffer, {
+    const photoUrl=await cloudinary.v2.uploader.upload(photoLink, {
         folder: 'Airbnb'
     });
 
