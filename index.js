@@ -22,7 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
     origin: 'https://airbnb-clone-frontend-mocha.vercel.app',
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'] 
 }));
 app.use(cookieParser());
 app.use(passport.initialize());
