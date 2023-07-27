@@ -14,6 +14,7 @@ const multer=require("multer");  //for upload image from computer
 const fs=require("fs");
 const path=require("path");
 const { v4: uuidv4 }=require("uuid");  //for upload image using link
+const cloudinary=require("cloudinary");
 
 const app = express();
 
@@ -346,27 +347,27 @@ const downloadImage=async (url)=>{
 };
 
 //Save images on uploads folder
-app.post("/upload", upload.single('photo'), async function(req, res){
+// app.post("/upload", upload.single('photo'), async function(req, res){
    
-    if(req.file){
-        const photoUrl='Uploads/'+req.file.filename;
-        res.status(200).send(photoUrl);
-    }
-    else if(req.body.link){
-        try {
-            const filename=await downloadImage(req.body.link)
-            const photoUrl='Uploads/'+filename;
-            res.status(200).send(photoUrl);
+//     if(req.file){
+//         const photoUrl='Uploads/'+req.file.filename;
+//         res.status(200).send(photoUrl);
+//     }
+//     else if(req.body.link){
+//         try {
+//             const filename=await downloadImage(req.body.link)
+//             const photoUrl='Uploads/'+filename;
+//             res.status(200).send(photoUrl);
 
-        } catch (error) {
-            console.log(error);
-            res.status(500).send('Error uploading Image.')
-        }
-    }
-    else{
-        res.status(400).send("Error uploading file.");
-    }
-});
+//         } catch (error) {
+//             console.log(error);
+//             res.status(500).send('Error uploading Image.')
+//         }
+//     }
+//     else{
+//         res.status(400).send("Error uploading file.");
+//     }
+// });
   
 //Delete images from uploads folder
 app.delete("/deletePhoto/Uploads/:fileName", function(req, res){
@@ -385,8 +386,89 @@ app.delete("/deletePhoto/Uploads/:fileName", function(req, res){
 
 });
 
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+app.post("/upload", async function(req, res){
+    const photoLink=req.body.link;
+
+    const cloudinaryOptions={
+        public_id: uuidv4(),
+        format: 'jpg',
+        folder: 'Airbnb',
+        resource_type: 'image'
+    };
+
+    const response=await fetch(photoLink);
+
+    if(!response.ok){
+        return res.status(400).json({"error": 'Failed to download image' });
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
+
+    const photoUrl=await cloudinary.v2.uploader.upload(buffer, cloudinaryOptions);
+
+    res.status(200).send(photoUrl);
+});
+
+
+
 const PORT=process.env.PORT || 5000
 
 app.listen(PORT, function () {
     console.log(`Server started at port ${PORT}`);
 });
+
+
+/*
+require("dotenv").config();
+const express=require("express");
+const cloudinary=require("cloudinary");
+const Post=require("../mongodb/post")  //very very important how to export models
+
+const router=express.Router();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+router.get("/", async function(req, res){
+    try {
+        const posts=await Post.find({});
+        res.status(200).json({success: true, data: posts});
+    } catch (error) {
+        res.status(500).json({success: false, message: error});
+    }
+});
+
+router.post("/", async function(req, res){
+
+    try {
+        const {name, prompt, photo}=req.body;
+
+        const photoUrl=await cloudinary.v2.uploader.upload(photo);
+
+        const newPost=new Post({
+            name: name, 
+            prompt: prompt,
+            photo: photoUrl.url //not directly stored as base_64 address instead first the image is stored in cloudinary and this its url is stored in the database
+        });
+
+        newPost.save();
+    
+        res.status(201).json({success: true, data: newPost});
+        
+    } catch (error) {
+        res.status(500).json({success: false, message: error});   
+    }
+});
+
+module.exports=router;
+*/
