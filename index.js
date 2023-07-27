@@ -21,7 +21,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'https://airbnb-clone-frontend-mocha.vercel.app',
+    origin: ['https://airbnb-clone-frontend-mocha.vercel.app', 'https://api.cloudinary.com/v1_1/dmamth1y2/image/destroy'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'] 
 }));
