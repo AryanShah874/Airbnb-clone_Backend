@@ -394,31 +394,37 @@ cloudinary.config({
 });
 
 app.post("/upload", async function(req, res){
-    const {photoLink}=req.body;
+    try{
 
-    // const cloudinaryOptions={
-    //     public_id: uuidv4(),
-    //     format: 'jpg',
-    //     folder: 'Airbnb',
-    //     resource_type: 'image'
-    // };
-
-    // const response=await fetch(photoLink);
-
-    // if(!response.ok){
-    //     return res.status(400).json({"error": 'Failed to download image' });
-    // }
-
-    // const arrayBuffer = await response.arrayBuffer();
-    // const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
-
-    const photoUrl=await cloudinary.v2.uploader.upload(photoLink, {
-        folder: 'Airbnb'
+            const {photoLink}=req.body;
+        
+            // const cloudinaryOptions={
+            //     public_id: uuidv4(),
+            //     format: 'jpg',
+            //     folder: 'Airbnb',
+            //     resource_type: 'image'
+            // };
+        
+            // const response=await fetch(photoLink);
+        
+            // if(!response.ok){
+            //     return res.status(400).json({"error": 'Failed to download image' });
+            // }
+        
+            // const arrayBuffer = await response.arrayBuffer();
+            // const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
+        
+            const photoUrl=await cloudinary.v2.uploader.upload(photoLink, {
+                folder: 'Airbnb'
+            });
+        
+            res.status(200).send(photoUrl.url);
+        }
+        catch(err){
+            throw(err);
+        }
+        
     });
-
-    res.status(200).send(photoUrl.url);
-});
-
 
 
 const PORT=process.env.PORT || 5000
