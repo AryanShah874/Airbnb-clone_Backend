@@ -415,7 +415,7 @@ app.post("/upload", async function(req, res){
         folder: 'Airbnb'
     });
 
-    res.status(200).send(photoUrl);
+    res.status(200).send(photoUrl.url);
 });
 
 
