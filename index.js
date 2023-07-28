@@ -21,7 +21,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: ['https://airbnb-clone-frontend-mocha.vercel.app', 'https://api.cloudinary.com/v1_1/dmamth1y2/image/upload'],
+    origin: 'https://airbnb-clone-frontend-mocha.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'] 
 }));
@@ -371,60 +371,69 @@ const downloadImage=async (url)=>{
 // });
   
 //Delete images from uploads folder
-app.delete("/deletePhoto/Uploads/:fileName", function(req, res){
-    const {fileName}=req.params;
-
-    const filePath=path.join(__dirname, 'Uploads', fileName);
-
-    fs.unlink(filePath, function(err){
-        if(err){
-            res.status(500).json({"error": "Error deleting photo."});
-        }
-        else{
-            res.status(200).json({"success": "Deleted Successfully."});
-        }
+// app.delete("/deletePhoto/Uploads/:fileName", function(req, res){
+    //     const {fileName}=req.params;
+    
+    //     const filePath=path.join(__dirname, 'Uploads', fileName);
+    
+    //     fs.unlink(filePath, function(err){
+        //         if(err){
+            //             res.status(500).json({"error": "Error deleting photo."});
+            //         }
+            //         else{
+                //             res.status(200).json({"success": "Deleted Successfully."});
+                //         }
+                //     });
+                
+                // });
+                
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+                
+    app.delete("/deletePhoto/:publicId", function(req, res){
+        const {publicId}=req.params;
+    
+        cloudinary.v2.uploader.destroy(publicId)
+        .then((result)=>{res.status(200).json(result)})
+        .catch((err)=>{console.log(err)})    
     });
 
-});
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
+    // app.post("/upload", async function(req, res){
+    // try{
 
-app.post("/upload", async function(req, res){
-    try{
-
-            const {photoLink}=req.body;
+    //         const {photoLink}=req.body;
         
-            // const cloudinaryOptions={
-            //     public_id: uuidv4(),
-            //     format: 'jpg',
-            //     folder: 'Airbnb',
-            //     resource_type: 'image'
-            // };
+    //         // const cloudinaryOptions={
+    //         //     public_id: uuidv4(),
+    //         //     format: 'jpg',
+    //         //     folder: 'Airbnb',
+    //         //     resource_type: 'image'
+    //         // };
         
-            // const response=await fetch(photoLink);
+    //         // const response=await fetch(photoLink);
         
-            // if(!response.ok){
-            //     return res.status(400).json({"error": 'Failed to download image' });
-            // }
+    //         // if(!response.ok){
+    //         //     return res.status(400).json({"error": 'Failed to download image' });
+    //         // }
         
-            // const arrayBuffer = await response.arrayBuffer();
-            // const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
+    //         // const arrayBuffer = await response.arrayBuffer();
+    //         // const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
         
-            const photoUrl=await cloudinary.v2.uploader.upload(photoLink, {
-                folder: 'Airbnb'
-            });
+    //         const photoUrl=await cloudinary.v2.uploader.upload(photoLink, {
+    //             folder: 'Airbnb'
+    //         });
         
-            res.status(200).send(photoUrl.url);
-        }
-        catch(err){
-            throw(err);
-        }
+    //         res.status(200).send(photoUrl.url);
+    //     }
+    //     catch(err){
+    //         throw(err);
+    //     }
         
-    });
+    // });
 
 
 const PORT=process.env.PORT || 5000
