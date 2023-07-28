@@ -393,7 +393,7 @@ const downloadImage=async (url)=>{
         api_secret: process.env.CLOUDINARY_API_SECRET
     });
                 
-    app.post("/deletePhoto", async function(req, res){
+    app.delete("/deletePhoto", async function(req, res){
         const {public_id}=req.body;
     
         const result=await cloudinary.v2.uploader.destroy('airbnb/'+public_id);
