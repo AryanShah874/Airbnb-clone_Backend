@@ -393,13 +393,12 @@ const downloadImage=async (url)=>{
         api_secret: process.env.CLOUDINARY_API_SECRET
     });
                 
-    app.delete("/deletePhoto/:publicId", async function(req, res){
-        const {publicId}=req.params;
+    app.post("/deletePhoto", async function(req, res){
+        const {public_id}=req.body;
     
-        await cloudinary.v2.uploader.destroy(publicId, function(result, err){
+        await cloudinary.v2.uploader.destroy(public_id, function(result, err){
             console.log(result, err);
-        })
-        
+        }); 
     });
 
 
