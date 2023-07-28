@@ -396,9 +396,9 @@ const downloadImage=async (url)=>{
     app.post("/deletePhoto", async function(req, res){
         const {public_id}=req.body;
     
-        await cloudinary.v2.uploader.destroy('airbnb/'+public_id, function(result, err){
-            console.log(result, err);
-        }); 
+        const result=await cloudinary.v2.uploader.destroy('airbnb/'+public_id);
+        
+        console.log(result);
     });
 
 
