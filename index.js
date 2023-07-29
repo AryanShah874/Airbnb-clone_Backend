@@ -10,10 +10,6 @@ const Place = require("./Models/Place");
 const Booking = require("./Models/Booking");
 const passport=require("passport");
 const GoogleStrategy=require("passport-google-oauth20").Strategy;  //for google login
-const multer=require("multer");  //for upload image from computer
-const fs=require("fs");
-const path=require("path");
-const { v4: uuidv4 }=require("uuid");  //for upload image using link
 const cloudinary=require("cloudinary");
 
 const app = express();
