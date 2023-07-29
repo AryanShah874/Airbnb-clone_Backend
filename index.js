@@ -370,35 +370,32 @@ const downloadImage=async (url)=>{
 //     }
 // });
   
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+app.post("/upload", function(req, res){
+    const {photoLink}=req.body;
+
+    cloudinary.v2.uploader
+    .upload(photoLink, {
+        upload_preset: 'airbnb',
+        folder: 'airbnb'
+    })
+    .then((result)=>{console.log(result)})
+});
+                
 //Delete images from uploads folder
-// app.delete("/deletePhoto/Uploads/:fileName", function(req, res){
-    //     const {fileName}=req.params;
-    
-    //     const filePath=path.join(__dirname, 'Uploads', fileName);
-    
-    //     fs.unlink(filePath, function(err){
-        //         if(err){
-            //             res.status(500).json({"error": "Error deleting photo."});
-            //         }
-            //         else{
-                //             res.status(200).json({"success": "Deleted Successfully."});
-                //         }
-                //     });
-                
-                // });
-                
-    cloudinary.config({
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET
-    });
-                
-    app.post("/deletePhoto", function(req, res){
-        const {public_id}=req.body;
-    
-        cloudinary.v2.uploader.destroy(public_id)
-        .then((result)=>{res.status(200).json(result)})
-    });
+app.post("/deletePhoto", function(req, res){
+    const {public_id}=req.body;
+
+    cloudinary.v2.uploader
+    .destroy(public_id)
+    .then((result)=>{res.status(200).json(result)});
+});
 
 
     // app.post("/upload", async function(req, res){
@@ -440,52 +437,3 @@ const PORT=process.env.PORT || 5000
 app.listen(PORT, function () {
     console.log(`Server started at port ${PORT}`);
 });
-
-
-/*
-require("dotenv").config();
-const express=require("express");
-const cloudinary=require("cloudinary");
-const Post=require("../mongodb/post")  //very very important how to export models
-
-const router=express.Router();
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
-
-router.get("/", async function(req, res){
-    try {
-        const posts=await Post.find({});
-        res.status(200).json({success: true, data: posts});
-    } catch (error) {
-        res.status(500).json({success: false, message: error});
-    }
-});
-
-router.post("/", async function(req, res){
-
-    try {
-        const {name, prompt, photo}=req.body;
-
-        const photoUrl=await cloudinary.v2.uploader.upload(photo);
-
-        const newPost=new Post({
-            name: name, 
-            prompt: prompt,
-            photo: photoUrl.url //not directly stored as base_64 address instead first the image is stored in cloudinary and this its url is stored in the database
-        });
-
-        newPost.save();
-    
-        res.status(201).json({success: true, data: newPost});
-        
-    } catch (error) {
-        res.status(500).json({success: false, message: error});   
-    }
-});
-
-module.exports=router;
-*/
