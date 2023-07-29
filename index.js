@@ -382,7 +382,6 @@ app.post("/upload", function(req, res){
 
     cloudinary.v2.uploader
     .upload(photoLink, {
-        upload_preset: 'airbnb',
         folder: 'airbnb'
     })
     .then((result)=>{console.log(result)})
