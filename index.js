@@ -313,62 +313,6 @@ app.get("/auth/google/callback", passport.authenticate("google", { session: fals
     res.cookie('token', req.user, {secure: true, sameSite: "none"});
     res.redirect("https://airbnb-clone-frontend-mocha.vercel.app");
 });
-
-
-//Multer Configuration for upload image from computer
-const storage=multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, 'Uploads/');
-    },
-    filename: function(req, file, cb){
-        cb(null, Date.now()+'-'+file.originalname);
-    }
-});
-
-const upload=multer({storage: storage});
-
-//uuid Configuration for upload image using link
-const downloadImage=async (url)=>{
-    const response=await fetch(url);
-
-    if(!response.ok){
-        console.log("Failed to download image");
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
-
-    const filename=`${uuidv4()}.jpg`;
-    const destination='Uploads/';
-    const path=`${destination}${filename}`;
-
-    fs.writeFileSync(path, buffer);
-
-    return filename;
-};
-
-//Save images on uploads folder
-// app.post("/upload", upload.single('photo'), async function(req, res){
-   
-//     if(req.file){
-//         const photoUrl='Uploads/'+req.file.filename;
-//         res.status(200).send(photoUrl);
-//     }
-//     else if(req.body.link){
-//         try {
-//             const filename=await downloadImage(req.body.link)
-//             const photoUrl='Uploads/'+filename;
-//             res.status(200).send(photoUrl);
-
-//         } catch (error) {
-//             console.log(error);
-//             res.status(500).send('Error uploading Image.')
-//         }
-//     }
-//     else{
-//         res.status(400).send("Error uploading file.");
-//     }
-// });
   
 
 cloudinary.config({
@@ -386,41 +330,6 @@ app.post("/deletePhoto", function(req, res){
     .destroy(public_id)
     .then((result)=>{res.status(200).json(result)});
 });
-
-
-    // app.post("/upload", async function(req, res){
-    // try{
-
-    //         const {photoLink}=req.body;
-        
-    //         // const cloudinaryOptions={
-    //         //     public_id: uuidv4(),
-    //         //     format: 'jpg',
-    //         //     folder: 'Airbnb',
-    //         //     resource_type: 'image'
-    //         // };
-        
-    //         // const response=await fetch(photoLink);
-        
-    //         // if(!response.ok){
-    //         //     return res.status(400).json({"error": 'Failed to download image' });
-    //         // }
-        
-    //         // const arrayBuffer = await response.arrayBuffer();
-    //         // const buffer = Buffer.from(arrayBuffer, 0, arrayBuffer.byteLength);
-        
-    //         const photoUrl=await cloudinary.v2.uploader.upload(photoLink, {
-    //             folder: 'Airbnb'
-    //         });
-        
-    //         res.status(200).send(photoUrl.url);
-    //     }
-    //     catch(err){
-    //         throw(err);
-    //     }
-        
-    // });
-
 
 const PORT=process.env.PORT || 5000
 
