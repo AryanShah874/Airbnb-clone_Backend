@@ -377,17 +377,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-app.post("/upload", function(req, res){
-    const {file}=req.body;
-
-    cloudinary.v2.uploader
-    .upload(file, {
-        folder: 'airbnb',
-        resource_type: 'image'
-    })
-    .then((result)=>{res.status(200).json(result)})
-});
-                
+          
 //Delete images from uploads folder
 app.post("/deletePhoto", function(req, res){
     const {public_id}=req.body;
