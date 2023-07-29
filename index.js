@@ -378,10 +378,10 @@ cloudinary.config({
 });
 
 app.post("/upload", function(req, res){
-    const {photo}=req.body;
+    const {file}=req.body;
 
     cloudinary.v2.uploader
-    .upload(photo, {
+    .upload(file, {
         folder: 'airbnb',
         resource_type: 'image'
     })
