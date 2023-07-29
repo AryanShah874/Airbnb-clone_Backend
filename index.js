@@ -233,6 +233,16 @@ app.delete("/places", function(req, res){
                 console.log(err);
             }   
             else{
+                const {photos}=await Place.findById(req.body.id);
+
+                photos.map(async (photo)=>{
+                    let publicId =await photo.split('/').slice(-2).join('/').replace(/\.[^/.]+$/, '');
+
+                    cloudinary.v2.uploader
+                    .destroy(publicId)
+                    .then((result)=>{console.log(result)});
+                })
+
                 await Place.deleteOne({owner: user.id, _id: req.body.id})
                 .then(()=>{res.status(200).json({"success": "Place Deleted Successfully."})})
                 .catch((err)=>{console.log(err);})
