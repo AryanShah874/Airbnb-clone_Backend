@@ -385,7 +385,7 @@ app.post("/upload", function(req, res){
         folder: 'airbnb',
         resource_type: 'image'
     })
-    .then((result)=>{console.log(result)})
+    .then((result)=>{res.status(200).json(result)})
 });
                 
 //Delete images from uploads folder
